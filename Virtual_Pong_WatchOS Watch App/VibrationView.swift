@@ -16,30 +16,34 @@ struct VibrationView: View {
     @State var dritto = false
     
     var body: some View {
-        ZStack {
-            Image("bg01")
-                .resizable()
-                .ignoresSafeArea(.all)
-            VStack {
-                Text("\(timeRemaining)") // visualizza il tempo rimanente
-                    .font(.largeTitle)
-                Button(action: {
-                    self.startTimer()
-                }) {
-                    Text("Start Timer") // bottone per l'attivazione del timer
-                }
-                HStack {
+        GeometryReader{
+            reader in
+            ZStack {
+                Image("BG")
+                    .resizable()
+                    .ignoresSafeArea(.all)
+                    .frame(height: reader.size.height)
+                VStack {
+                    Text("\(timeRemaining)") // visualizza il tempo rimanente
+                        .font(.largeTitle)
                     Button(action: {
-                        self.rovescio = true // setta la variabile rovescio a true
-                        self.checkColpoForte()
+                        self.startTimer()
                     }) {
-                        Text("Rovescio")
+                        Text("Start Timer") // bottone per l'attivazione del timer
                     }
-                    Button(action: {
-                        self.dritto = true // setta la variabile dritto a true
-                        self.checkColpoForte()
-                    }) {
-                        Text("Dritto")
+                    HStack {
+                        Button(action: {
+                            self.rovescio = true // setta la variabile rovescio a true
+                            self.checkColpoForte()
+                        }) {
+                            Text("Rovescio")
+                        }
+                        Button(action: {
+                            self.dritto = true // setta la variabile dritto a true
+                            self.checkColpoForte()
+                        }) {
+                            Text("Dritto")
+                        }
                     }
                 }
             }

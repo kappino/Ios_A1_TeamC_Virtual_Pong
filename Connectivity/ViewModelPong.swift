@@ -22,6 +22,7 @@ class ViewModelPong: ObservableObject {
     @Published var colpo = "Paolo"
     @Published var partita = false
     @Published var player = 0
+    @Published
     
     init(){
         userConnectivityPong = UserConnectivityPong(modelUpdate: valueModelPong)
