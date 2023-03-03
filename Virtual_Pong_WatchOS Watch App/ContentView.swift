@@ -31,7 +31,7 @@ struct ContentView: View {
                         .padding()
                     Text("In attesa di connessioni..")
                         .sheet(isPresented: $partita, content: {
-                            InsertCodeView()
+                            VibrationView()
                         })
                         .onAppear{
                             let _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
