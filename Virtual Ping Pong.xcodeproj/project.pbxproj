@@ -149,7 +149,6 @@
 		8B6422262909C81300D3EB2B = {
 			isa = PBXGroup;
 			children = (
-				8BD589DD29B237100064E63C /* Suoni */,
 				8BB3500829B1F5AC00585052 /* Connectivity */,
 				8B6422312909C81300D3EB2B /* Virtual Ping Pong */,
 				68B3672029A8F69400E3A087 /* Virtual_Pong_WatchOS Watch App */,
@@ -170,6 +169,7 @@
 		8B6422312909C81300D3EB2B /* Virtual Ping Pong */ = {
 			isa = PBXGroup;
 			children = (
+				8BD589DD29B237100064E63C /* Suoni */,
 				8B3DEE5C29B0F2DF00FB4799 /* Buttons.swift */,
 				8B3DEE5B29B0F2DF00FB4799 /* ConnectView.swift */,
 				8B3DEE5D29B0F2DF00FB4799 /* ContentView.swift */,

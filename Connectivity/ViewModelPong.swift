@@ -22,7 +22,7 @@ class ViewModelPong: ObservableObject {
     @Published var colpo = "Paolo"
     @Published var partita = false
     @Published var player = 0
-    @Published var colpito = false
+    @Published var colpito = true
     
     init(){
         userConnectivityPong = UserConnectivityPong(modelUpdate: valueModelPong)
@@ -41,6 +41,8 @@ class ViewModelPong: ObservableObject {
                     self.partita = value.value as! Bool
                 case "player":
                     self.player = value.value as! Int
+                case "colpito":
+                    self.colpito = value.value as! Bool
                 default:
                     print("Error")
                     

@@ -4,7 +4,7 @@ import CoreML
 // Creazione dell'oggetto per la gestione dei dati dai sensori
     //    let motionManager = CMMotionManager()
     
-class Movimento {
+class Movimento: ObservableObject{
     var motionManager = CMMotionManager()
     var viewModelPong: ViewModelPong = ViewModelPong()
     
@@ -27,50 +27,8 @@ class Movimento {
     var gyroArrayZ = [Double]()
     var start = false
     let stateIn = try! MLMultiArray(shape: [1, 1, 400], dataType: .double)
-    var currentActivity: String?
-    
-    
-    // Funzione per gestire gli aggiornamenti dei sensori
-    //      func handleMotionUpdate(motion: CMMotionManager?) {
-    ////        guard let motion = motion else {
-    ////            // Gestione dell'errore di lettura dei dati dai sensori
-    ////            return
-    ////        }
-    //
-    //        // Aggiunta delle accelerazioni all'array
-    //          print(accelerationArrayX.count)
-    //          if accelerationArrayX.count < 6 {
-    //              if let data = motionManager?.deviceMotion {
-    //                  let x = data.rotationRate.x
-    //                  let y = data.rotationRate.y
-    //                  let z = data.rotationRate.z
-    //                  print(x)
-    //                  gyroArrayX.append(x)
-    //                  gyroArrayY.append(y)
-    //                  gyroArrayZ.append(z)
-    //
-    //              } else { print("MAMMT")}
-    //              if let data = motionManager?.accelerometerData {
-    //                  let x = data.acceleration.x
-    //                  let y = data.acceleration.y
-    //                  let z = data.acceleration.z
-    //
-    //                  accelerationArrayX.append(x)
-    //                  accelerationArrayY.append(y)
-    //                  accelerationArrayZ.append(z)
-    //              }
-    //          }
-    //          else if accelerationArrayX.count == 6 {
-    //              predictActivity(lung:6)
-    //
-    //          }
-    //        // Controllo del tempo trascorso dall'ultimo riconoscimento di attività
-    ////        if let lastRecognitionTime = lastActivityRecognitionTime,
-    ////           Date().timeIntervalSince(lastRecognitionTime) >= 1 {
-    //            // Eseguire la predizione di attività
-    ////            lastActivityRecognitionTime = Date()
-    ////        }
-    //    }
+    @Published var currentActivity: String = ""
+
     
     func handleMotionUpdate(motion: CMMotionManager?) {
         // Verifica che l'oggetto CMMotionManager sia stato passato correttamente
@@ -136,6 +94,8 @@ class Movimento {
                 self.handleMotionUpdate(motion: self.motionManager )
             }
         }
+
+        
     }
     
     // Funzione per fermare il timer di aggiornamento dei sensori
@@ -236,7 +196,6 @@ class Movimento {
         print(prediction.label)
         print(prediction.labelProbability)
         if currentActivity == "dritti" || currentActivity == "rovesci" {
-            viewModelPong.sendMessage(key: "colpo", value: currentActivity)
             //            print(accelerationX,accelerationY,accelerationZ,gyroX,gyroY,gyroZ)
             stopMotionUpdates()
             self.gyroArrayX = []

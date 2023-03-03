@@ -8,12 +8,29 @@
 import SwiftUI
 import WatchKit
 
+
+
+
 struct VibrationView: View {
+    
+    
     
     @State var timeRemaining = 3.0 // inizialmente 4 secondi
     @State var timer: Timer?
-    @State var rovescio = false
+    @State var colpo = ""
+    @State var colpo1 = -1.0
+    @State var colpo2 = -1.0
+    @State var colpo3 = -1.0
+    @State var x = 0
+    
     @State var dritto = false
+    @State var rovescio = false
+
+    private var viewModelPong = ViewModelPong()
+    @StateObject private var movimento1 = Movimento()
+    @StateObject private var movimento2 = Movimento()
+    @StateObject private var movimento3 = Movimento()
+
     
     var body: some View {
         GeometryReader{
@@ -25,26 +42,54 @@ struct VibrationView: View {
                     .frame(height: reader.size.height)
                 VStack {
                     Text("\(timeRemaining)") // visualizza il tempo rimanente
-                        .font(.largeTitle)
-                    Button(action: {
-                        self.startTimer()
-                    }) {
-                        Text("Start Timer") // bottone per l'attivazione del timer
+                        .onAppear{
+                                if viewModelPong.colpito == false {
+                                
+                                    movimento1.startMotionUpdates()
+                                    usleep(200000)
+                                    movimento2.startMotionUpdates()
+                                    usleep(200000)
+                                    movimento3.startMotionUpdates()
+                                    
+                                    
+                                    
+                            }
+                            
                     }
-                    HStack {
-                        Button(action: {
-                            self.rovescio = true // setta la variabile rovescio a true
-                            self.checkColpoForte()
-                        }) {
-                            Text("Rovescio")
-                        }
-                        Button(action: {
-                            self.dritto = true // setta la variabile dritto a true
-                            self.checkColpoForte()
-                        }) {
-                            Text("Dritto")
-                        }
-                    }
+                        .onReceive(movimento1.$currentActivity, perform: { value in
+                            if value == "dritti" {
+                                colpo1 = 0.0
+                            } else {
+                                colpo1 = 1.0
+                            }
+                            x = x+1
+                        })
+                        .onReceive(movimento2.$currentActivity, perform: { value in
+                            if value == "dritti" {
+                                colpo2 = 0.0
+                            } else {
+                                colpo2 = 1.0
+                            }
+                            x = x+1
+                        })
+                        .onReceive(movimento3.$currentActivity, perform: { value in
+                            if value == "dritti" {
+                                colpo3 = 0.0
+                            } else {
+                                colpo3 = 1.0
+                            }
+
+                            x = x+1
+                            if x == 3 {
+                                let c = (colpo1 + colpo2 + colpo3 ) / 3
+                                if c > 1.5 {
+                                    colpo = "rovescio"
+                                } else {
+                                    colpo = "dritto"
+                                }
+                            }
+                        })
+
                 }
             }
         }
